@@ -11,6 +11,7 @@
     <modules>
         <module>mybatis-example</module>
         <module>mybatis-dao</module>
+        <module>mybatis-mapper</module>
     </modules>
 
     <properties>
