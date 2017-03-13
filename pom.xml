@@ -12,6 +12,7 @@
         <module>mybatis-example</module>
         <module>mybatis-dao</module>
         <module>mybatis-mapper</module>
+        <module>mybatis-exercise</module>
     </modules>
 
     <properties>
