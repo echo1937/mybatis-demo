@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.manual.mapper.Mapper">
+
+    <!-- 一对一: 手动映射 (列出每一个订单, 每个订单必然有一个下单用户) -->
+    <select id="findOrdersAndUser" resultMap="ResultMap1">
+        SELECT a.*, b.id uid, username, birthday, sex, address FROM orders a, user b WHERE a.user_id = b.id
+    </select>
+    <resultMap id="ResultMap1" type="cn.manual.pojo.Orders">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createtime"/>
+        <result column="note" property="note"/>
+
+        <association property="user" javaType="cn.manual.pojo.User">
+            <id column="uid" property="id"/>
+            <result column="username" property="username"/>
+            <result column="birthday" property="birthday"/>
+            <result column="sex" property="sex"/>
+            <result column="address" property="address"/>
+        </association>
+    </resultMap>
+
+    <!--一多关系: 手动映射 (列出每个用户, 每个用户可能有一笔或者多笔订单) -->
+    <select id="findUserAndOrders" resultMap="ResultMap2">
+        SELECT b.id uid, username, birthday, sex, address, a.* FROM orders a, user b WHERE a.user_id=b.id
+    </select>
+    <resultMap id="ResultMap2" type="cn.manual.pojo.User">
+        <id column="uid" property="id"/>
+        <result column="username" property="username"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="address" property="address"/>
+
+        <collection property="ordersList" ofType="cn.manual.pojo.Orders">
+            <id column="id" property="id"/>
+            <result column="user_id" property="userId"/>
+            <result column="number" property="number"/>
+            <result column="createtime" property="createtime"/>
+            <result column="note" property="note"/>
+        </collection>
+    </resultMap>
+
+</mapper>
