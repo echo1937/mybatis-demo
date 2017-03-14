@@ -29,7 +29,12 @@
         <property name="basePackage" value="cn.it.mapper"/>
     </bean>
 
-    <!--mapper接口代理实现: 传入mapper接口, 传入sqlSessionFactory, 生成MapperFactoryBean(来自mybatis-spring) -->
+    <!--传统dao的开发方式: 在UserDaoImpl中可以extend SqlSessionDaoSupport(来自mybatis-spring), 作用类似于jdbc模板类, 可以省去传入构造参数, 改用set方法传入sqlSessionFactory -->
+    <!--<bean class="cn.it.dao.UserDaoImpl" id="userDao">-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+
+    <!--使用mapper代理形式开发方式: 传入mapper接口, 传入sqlSessionFactory, 生成MapperFactoryBean(来自mybatis-spring) -->
     <!--<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="userMapper">-->
         <!--<property name="mapperInterface" value="cn.it.mapper.UserMapper"/>-->
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->

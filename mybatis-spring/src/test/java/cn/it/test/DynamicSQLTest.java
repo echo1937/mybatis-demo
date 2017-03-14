@@ -20,7 +20,7 @@ import java.util.List;
 public class DynamicSQLTest {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserMapper userMapper;   // 配置的bean为MapperScannerConfigurer, 批量扫描生成mapper
 
     @Test
     public void findUserByQueryVo() throws Exception {
