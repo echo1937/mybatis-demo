@@ -16,3 +16,6 @@
 ###5. mybatis-spring
 + 输入类型、输出类型、动态SQL拼接
 + 联表查询（一对一，一对多；自动映射，手动映射）
+
+###5. mybatis-generator
++ 利用mybatis-generator-maven-plugin生成逆向工程文件
