@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--properties标签改由Spring的context:property-placeholder 管理-->
+
+    <!--不使用别名的话, typeAliases标签也可以取消-->
+
+    <!--和spring整合后 environments配置也被废除-->
+
+    <!--mappers标签改由org.mybatis.spring.mapper.MapperScannerConfigurer代替-->
+
+</configuration>

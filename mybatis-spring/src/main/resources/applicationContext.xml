@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--凡是spring的配置文件,location前都需要加classpath, 不是就不要加-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="10"/>
+        <property name="maxIdle" value="5"/>
+    </bean>
+
+    <!--配置SqlSessionFactoryBean(来自mybatis-spring整合包) -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--凡是spring的配置文件,location前都需要加classpath, 不是就不要加-->
+        <property name="configLocation" value="classpath:SqlMapConfig.xml"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--使用包扫描的方式批量导入mapper: 扫描完毕以后, 可以采用首字母小写的驼峰命名法, 直接获取mapperBean -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" >
+        <!--指定扫描的全路径, 如果有多个位置, 使用英文状态下的逗号分隔-->
+        <property name="basePackage" value="cn.it.mapper"/>
+    </bean>
+
+    <!--mapper接口代理实现: 传入mapper接口, 传入sqlSessionFactory, 生成MapperFactoryBean(来自mybatis-spring) -->
+    <!--<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="userMapper">-->
+        <!--<property name="mapperInterface" value="cn.it.mapper.UserMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+
+</beans>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+    1、Mapper接口的全路径名称和Mapper.xml中的namespace相同
+    2、Mapper接口方法名和Mapper.xml中定义的每个statement的id相同
+    3、Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同
+    4、Mapper接口方法的输出参数类型和mapper.xml中定义的每个sql的resultType的类型相同
+-->
+
+<mapper namespace="cn.it.mapper.UserMapper">
+
+    <!-- 使用vo作为parameterType, pojo作为resultType -->
+    <select id="findUserByVo" parameterType="cn.it.pojo.QueryVo" resultType="cn.it.pojo.User">
+        SELECT * FROM user WHERE username LIKE '%${user.username}%' AND sex =#{user.sex}
+    </select>
+
+    <!-- 仅在SQL语句返回结果是一行一列时, 输出类型才会是基本类型 -->
+    <select id="findUserCount" resultType="int">
+        SELECT count(*) FROM user
+    </select>
+
+
+    <!-- 动态SQL拼接: SELECT * FROM user WHERE 1=1 AND username LIKE '%${username}% AND sex=#{sex}  -->
+    <select id="findUserByUsernameAndSex" resultType="cn.it.pojo.User" parameterType="cn.it.pojo.User">
+        SELECT * FROM user
+        <include refid="user_where"/>
+    </select>
+
+    <sql id="user_where">
+        <!--where标签可以让你省去书写难看的 1=1 ;并自动帮你把第一个where条件前的AND关键字去掉-->
+        <where>
+            <if test="username!=null and username!=''">username LIKE '%${username}%'</if>
+            <if test="sex!=null and sex!=''">AND sex=#{sex}</if>
+        </where>
+    </sql>
+
+
+    <!--SQL语句: SELECT * FROM user WHERE id IN (1,2,3,4) -->
+    <select id="findUserByIds" parameterType="cn.it.pojo.QueryVo" resultType="cn.it.pojo.User">
+        SELECT * FROM user
+        <where>
+            <if test="ids.isEmpty() != true">
+                AND <foreach collection="ids" item="element" open="id IN (" close=")" separator=",">#{element}</foreach>
+            </if>
+        </where>
+    </select>
+
+
+</mapper>
+
